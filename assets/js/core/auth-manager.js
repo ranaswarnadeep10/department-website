@@ -494,6 +494,11 @@ class AuthManager {
         
         this.updateUI();
         this.updateDashboardLinks();
+        
+        // Re-setup navigation listeners to include new dashboard links
+        if (window.app) {
+            window.app.setupNavLinkListeners();
+        }
     }
     
     async checkAuthStatus() {
@@ -555,6 +560,11 @@ class AuthManager {
         
         this.updateUI();
         this.clearDashboardLinks();
+        
+        // Re-setup navigation listeners
+        if (window.app) {
+            window.app.setupNavLinkListeners();
+        }
     }
     
     async logout() {
@@ -605,10 +615,10 @@ class AuthManager {
         }
     }
     
-updateDashboardLinks() {
-    // Only show dashboard links inside avatar dropdown
-    this.updateDropdownDashboardLinks();
-}
+    updateDashboardLinks() {
+        this.updateNavbarDashboardLinks();
+        this.updateDropdownDashboardLinks();
+    }
     
     updateNavbarDashboardLinks() {
         const container = document.getElementById('dynamic-dashboard-links');
@@ -621,8 +631,17 @@ updateDashboardLinks() {
             links.forEach(link => {
                 const anchor = document.createElement('a');
                 anchor.href = `#${link.section}`;
-                anchor.className = 'nav-link';
-                anchor.setAttribute('data-section', link.section);
+            anchor.className = 'dropdown-item';
+            anchor.setAttribute('data-dashboard', link.section);
+
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const section = e.currentTarget.dataset.dashboard;
+                if (window.app && section) {
+                    window.app.showSection(section);
+                }
+            });
                 anchor.innerHTML = `<i class="fas ${link.icon}"></i> ${link.text}`;
                 container.appendChild(anchor);
             });
@@ -662,34 +681,34 @@ updateDashboardLinks() {
         if (dropdownContainer) dropdownContainer.innerHTML = '';
     }
     
-    getDashboardLinksForRole(role) {
-        const links = {
-            'student': [
-                { section: 'student-dashboard', icon: 'fa-tachometer-alt', text: 'Dashboard' },
-                { section: 'student-profile', icon: 'fa-user', text: 'Profile' },
-                { section: 'student-projects', icon: 'fa-project-diagram', text: 'My Projects' },
-                { section: 'student-events', icon: 'fa-calendar-alt', text: 'Events' }
-            ],
-            'teacher': [
-                { section: 'faculty-dashboard', icon: 'fa-tachometer-alt', text: 'Dashboard' },
-                { section: 'faculty-profile', icon: 'fa-user', text: 'Profile' },
-                { section: 'faculty-students', icon: 'fa-user-graduate', text: 'Students' },
-                { section: 'faculty-courses', icon: 'fa-book', text: 'Courses' },
-                { section: 'faculty-projects', icon: 'fa-project-diagram', text: 'Projects' }
-            ],
-            'admin': [
-                { section: 'admin-dashboard', icon: 'fa-tachometer-alt', text: 'Dashboard' },
-                { section: 'admin-users', icon: 'fa-users', text: 'Users' },
-                { section: 'admin-faculty', icon: 'fa-chalkboard-teacher', text: 'Faculty' },
-                { section: 'admin-programs', icon: 'fa-graduation-cap', text: 'Programs' },
-                { section: 'admin-projects', icon: 'fa-project-diagram', text: 'Projects' },
-                { section: 'admin-events', icon: 'fa-calendar-alt', text: 'Events' },
-                { section: 'admin-messages', icon: 'fa-envelope', text: 'Messages' }
-            ]
-        };
-        
-        return links[role] || [];
-    }
+   getDashboardLinksForRole(role) {
+    const links = {
+        'student': [
+            { section: 'student-dashboard', icon: 'fa-tachometer-alt', text: 'Dashboard' },
+            { section: 'student-profile', icon: 'fa-user', text: 'Profile' },
+            { section: 'student-projects', icon: 'fa-project-diagram', text: 'My Projects' },
+            { section: 'student-events', icon: 'fa-calendar-alt', text: 'Events' }
+        ],
+        'teacher': [
+            { section: 'faculty-dashboard', icon: 'fa-tachometer-alt', text: 'Dashboard' },
+            { section: 'faculty-profile', icon: 'fa-user', text: 'Profile' },
+            { section: 'faculty-students', icon: 'fa-user-graduate', text: 'Students' },
+            { section: 'faculty-courses', icon: 'fa-book', text: 'Courses' },
+            { section: 'faculty-projects', icon: 'fa-project-diagram', text: 'Projects' }
+        ],
+        'admin': [
+            { section: 'admin-dashboard', icon: 'fa-tachometer-alt', text: 'Dashboard' },
+            { section: 'admin-users', icon: 'fa-users', text: 'Users' },
+            { section: 'admin-faculty', icon: 'fa-chalkboard-teacher', text: 'Faculty' },
+            { section: 'admin-programs', icon: 'fa-graduation-cap', text: 'Programs' },
+            { section: 'admin-projects', icon: 'fa-project-diagram', text: 'Projects' },
+            { section: 'admin-events', icon: 'fa-calendar-alt', text: 'Events' },
+            { section: 'admin-messages', icon: 'fa-envelope', text: 'Messages' }
+        ]
+    };
+    
+    return links[role] || [];
+}
     
     getAuthHeaders() {
         return {

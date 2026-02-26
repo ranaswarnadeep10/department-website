@@ -11,7 +11,7 @@ class AppManager {
         this.sectionLoaders = {};
         this.dashboardContainers = new Map();
         
-        // Properties to prevent redundant operations
+        // New properties to prevent redundant operations
         this.isLoadingSection = null;
         this.sectionDataLoaded = {};
         this.loadingDashboards = {};
@@ -32,9 +32,6 @@ class AppManager {
         // Initial scan for sections
         this.refreshSections();
         
-        // Make sure only home is visible at start
-        this.showOnlySection('home');
-        
         // Check for hash in URL and show that section
         this.handleInitialHash();
         
@@ -50,55 +47,23 @@ class AppManager {
         }, 1000);
     }
     
-    // Helper method to hide all sections and show only one
-    showOnlySection(sectionId) {
-        // Get ALL sections
-        const allSections = document.querySelectorAll('.content-section, .dashboard-section');
-        
-        // Hide EVERY section
-        allSections.forEach(section => {
-            section.classList.remove('active');
-            console.log(`Hidden: ${section.id}`);
-        });
-        
-        // Show the requested section
-        const sectionToShow = document.getElementById(sectionId);
-        if (sectionToShow) {
-            sectionToShow.classList.add('active');
-            this.currentSection = sectionId;
-            console.log(`Showing: ${sectionId}`);
-            
-            // Update URL hash
-            if (window.location.hash !== `#${sectionId}`) {
-                window.location.hash = sectionId;
-            }
-            
-            return true;
-        }
-        
-        console.warn(`Section ${sectionId} not found`);
-        return false;
-    }
-    
-    // Refresh the list of sections
+    // Refresh the list of sections (call after loading new content)
     refreshSections() {
         this.sections = document.querySelectorAll('.content-section, .dashboard-section');
-        console.log(`Found ${this.sections.length} sections:`, 
-            Array.from(this.sections).map(s => s.id).join(', '));
+        if (this.sections.length > 0) {
+            console.log(`Refreshed sections: ${this.sections.length} sections found`);
+        }
         return this.sections;
     }
     
     handleInitialHash() {
         const hash = window.location.hash.substring(1);
-        if (hash && document.getElementById(hash)) {
+        if (hash) {
+            // Small delay to ensure DOM is ready
             setTimeout(() => {
                 this.showSection(hash);
                 this.updateActiveNavLink(hash);
             }, 300);
-        } else {
-            // Ensure home is active
-            this.showOnlySection('home');
-            this.updateActiveNavLink('home');
         }
     }
     
@@ -126,19 +91,21 @@ class AppManager {
                 e.stopPropagation();
                 
                 const section = link.dataset.section;
-                if (section && !this.navigationInProgress) {
+                if (section && this.currentSection !== section && !this.navigationInProgress) {
                     this.navigationInProgress = true;
                     
-                    // Show the section
-                    this.showSection(section);
+                    // Update URL hash without triggering another navigation
+                    if (window.location.hash !== `#${section}`) {
+                        history.pushState(null, null, `#${section}`);
+                    }
                     
-                    // Update active states
+                    this.showSection(section).then(() => {
+                        this.navigationInProgress = false;
+                    });
+                    
                     this.navLinks.forEach(nl => nl.classList.remove('active'));
                     link.classList.add('active');
                     
-                    this.navigationInProgress = false;
-                    
-                    // Close mobile menu if open
                     const navMenu = document.getElementById('nav-menu');
                     if (navMenu && navMenu.classList.contains('active')) {
                         this.toggleMobileMenu();
@@ -161,11 +128,17 @@ class AppManager {
         // Handle browser back/forward buttons
         window.addEventListener('popstate', (e) => {
             const hash = window.location.hash.substring(1);
-            if (hash && document.getElementById(hash)) {
-                this.showSection(hash);
+            if (hash && hash !== this.currentSection && !this.navigationInProgress) {
+                this.navigationInProgress = true;
+                this.showSection(hash).then(() => {
+                    this.navigationInProgress = false;
+                });
                 this.updateActiveNavLink(hash);
-            } else {
-                this.showSection('home');
+            } else if (!hash && this.currentSection !== 'home' && !this.navigationInProgress) {
+                this.navigationInProgress = true;
+                this.showSection('home').then(() => {
+                    this.navigationInProgress = false;
+                });
                 this.updateActiveNavLink('home');
             }
         });
@@ -204,66 +177,93 @@ class AppManager {
     }
     
     async showSection(sectionId) {
-        // Prevent redundant calls
+        // Prevent redundant calls to the same section
         if (this.isLoadingSection === sectionId) {
+            console.log(`Already loading section: ${sectionId}`);
             return;
         }
         
-        console.log(`showSection called for: ${sectionId}`);
-        this.isLoadingSection = sectionId;
-        
-        // First, check if the section exists
-        let section = document.getElementById(sectionId);
-        
-        // If it's a dashboard section that doesn't exist yet, load it
-        if (!section && this.isDashboardSection(sectionId)) {
-            console.log(`Loading dashboard: ${sectionId}`);
-            const loaded = await this.loadDashboardSection(sectionId);
-            if (loaded) {
-                await new Promise(resolve => setTimeout(resolve, 200));
-                section = document.getElementById(sectionId);
-            }
+        // If it's the current section, just return
+        if (this.currentSection === sectionId && document.getElementById(sectionId)?.classList.contains('active')) {
+            console.log(`Section ${sectionId} is already active`);
+            return;
         }
         
-        if (section) {
-            // Hide ALL sections first
-            const allSections = document.querySelectorAll('.content-section, .dashboard-section');
-            allSections.forEach(s => {
-                s.classList.remove('active');
-            });
+        console.log(`Attempting to show section: ${sectionId}`);
+        this.isLoadingSection = sectionId;
+        
+        // First, check if the section exists in the DOM
+        let section = document.getElementById(sectionId);
+        let loaded = false;
+        
+        // If section doesn't exist, check if it's a dashboard section that needs to be loaded
+        if (!section) {
+            console.log(`Section "${sectionId}" not found, checking if it's a dashboard section...`);
             
-            // Show the requested section
+            if (this.isDashboardSection(sectionId)) {
+                console.log(`Loading dashboard section: ${sectionId}`);
+                loaded = await this.loadDashboardSection(sectionId);
+                
+                if (loaded) {
+                    // Wait a bit for DOM to update
+                    await new Promise(resolve => setTimeout(resolve, 150));
+                    section = document.getElementById(sectionId);
+                }
+            }
+        } else {
+            loaded = true;
+        }
+        
+        // Hide all sections
+        this.sections.forEach(s => {
+            if (s && s !== section) {
+                s.classList.remove('active');
+            }
+        });
+        
+        // Show the requested section
+        if (section && loaded) {
             section.classList.add('active');
             this.currentSection = sectionId;
-            
-            // Update URL hash
-            if (window.location.hash !== `#${sectionId}`) {
-                window.location.hash = sectionId;
-            }
             
             // Refresh sections list
             this.refreshSections();
             
-            // Load data if needed
+            // Load section data if needed (only once per session)
             if (!this.sectionDataLoaded[sectionId]) {
                 this.sectionDataLoaded[sectionId] = true;
-                setTimeout(() => this.loadSectionData(sectionId), 100);
+                // Small delay to ensure DOM is ready for data loading
+                setTimeout(() => {
+                    this.loadSectionData(sectionId);
+                }, 50);
             }
             
-            console.log(`✓ Now showing: ${sectionId}`);
-        } else {
-            console.error(`Cannot find section: ${sectionId}`);
+            // Scroll to top smoothly (only if not already at top)
+            if (window.scrollY > 100) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
             
-            // Fallback to home
-            if (sectionId !== 'home') {
-                this.showSection('home');
-                this.updateActiveNavLink('home');
+            console.log(`✓ Section "${sectionId}" is now active`);
+        } else {
+            console.warn(`Section "${sectionId}" not found after all attempts`);
+            
+            // If section not found, show home
+            if (this.currentSection !== 'home') {
+                const homeSection = document.getElementById('home');
+                if (homeSection) {
+                    homeSection.classList.add('active');
+                    this.currentSection = 'home';
+                    window.location.hash = 'home';
+                }
             }
         }
         
+        // Clear loading flag after a delay
         setTimeout(() => {
             this.isLoadingSection = null;
         }, 500);
+        
+        return loaded;
     }
     
     isDashboardSection(sectionId) {
@@ -277,24 +277,32 @@ class AppManager {
     }
     
     async loadDashboardSection(sectionId) {
+        // Check if already loading this dashboard
         if (this.loadingDashboards[sectionId]) {
             return this.loadingDashboards[sectionId];
         }
         
         try {
+            // Check if the global loader function exists
             if (window.loadDashboardComponent) {
                 this.loadingDashboards[sectionId] = window.loadDashboardComponent(sectionId);
                 const loaded = await this.loadingDashboards[sectionId];
                 
                 if (loaded) {
+                    // Wait for DOM to update
                     await new Promise(resolve => setTimeout(resolve, 200));
+                    
+                    // Refresh sections list
                     this.refreshSections();
+                    
                     return true;
                 }
+            } else {
+                console.error('loadDashboardComponent function not found');
             }
             return false;
         } catch (error) {
-            console.error(`Error loading dashboard ${sectionId}:`, error);
+            console.error(`Error loading dashboard section ${sectionId}:`, error);
             return false;
         } finally {
             delete this.loadingDashboards[sectionId];
@@ -314,17 +322,16 @@ class AppManager {
                 e.stopPropagation();
                 
                 const section = link.dataset.section;
-                if (section && !this.navigationInProgress) {
+                if (section && this.currentSection !== section && !this.navigationInProgress) {
                     this.navigationInProgress = true;
                     
                     document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
                     link.classList.add('active');
                     
-                    this.showSection(section);
-                    
-                    setTimeout(() => {
+                    this.showSection(section).then(() => {
                         this.navigationInProgress = false;
-                    }, 500);
+                    });
+                    window.location.hash = section;
                 }
             });
         });
@@ -375,7 +382,7 @@ class AppManager {
     loadSectionData(sectionId) {
         const loader = this.sectionLoaders[sectionId];
         if (loader) {
-            console.log(`Loading data for: ${sectionId}`);
+            console.log(`Loading data for section: ${sectionId}`);
             loader();
         }
     }
@@ -544,6 +551,23 @@ class AppManager {
     
     getAvatarUrl(name) {
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=4361ee&color=fff`;
+    }
+    
+    getStatusBadgeClass(status) {
+        const statusMap = {
+            'approved': 'badge-success',
+            'active': 'badge-success',
+            'completed': 'badge-success',
+            'pending': 'badge-warning',
+            'review': 'badge-warning',
+            'in-review': 'badge-warning',
+            'rejected': 'badge-danger',
+            'archived': 'badge-danger',
+            'draft': 'badge-info'
+        };
+        
+        const normalizedStatus = (status || '').toLowerCase();
+        return statusMap[normalizedStatus] || 'badge-info';
     }
     
     async loadProjectsData() {
@@ -728,6 +752,7 @@ class AppManager {
             return;
         }
         
+        // Prevent multiple simultaneous loads
         if (this.loadingStudentDashboard) return;
         this.loadingStudentDashboard = true;
         
@@ -820,6 +845,7 @@ class AppManager {
     async loadStudentProfile() {
         if (!this.auth.isAuthenticated || this.auth.currentUser.role !== 'student') return;
         
+        // Prevent multiple simultaneous loads
         if (this.loadingStudentProfile) return;
         this.loadingStudentProfile = true;
         
@@ -1118,6 +1144,7 @@ class AppManager {
             if (content) {
                 content.innerHTML = this.renderAdminDashboardContent(data);
                 
+                // Initialize chart if data exists
                 if (data.analytics && typeof Chart !== 'undefined') {
                     setTimeout(() => this.initAnalyticsChart(data.analytics), 100);
                 }
@@ -1196,6 +1223,7 @@ class AppManager {
         const canvas = document.getElementById('analytics-chart');
         if (!canvas) return;
         
+        // Destroy existing chart if it exists
         const existingChart = Chart.getChart(canvas);
         if (existingChart) {
             existingChart.destroy();
@@ -1449,20 +1477,62 @@ class AppManager {
         this.loadingAdminProjects = true;
         
         try {
-            const data = await this.api.getAdminProjects();
-            
+            console.log('Loading admin projects data...');
+            const response = await this.api.getAdminProjects();
+
+            // ✅ normalize data - handle different response formats
+            const projects = Array.isArray(response)
+                ? response
+                : Array.isArray(response.data)
+                    ? response.data
+                    : Array.isArray(response.projects)
+                        ? response.projects
+                        : [];
+
+            console.log(`Loaded ${projects.length} projects`);
+
             const content = document.getElementById('admin-projects-content');
             if (content) {
-                content.innerHTML = this.renderAdminProjects(data);
+                content.innerHTML = this.renderAdminProjects(projects);
             }
+
         } catch (error) {
             console.error('Error loading admin projects:', error);
+            this.toast?.error?.('Failed to load admin projects');
+            
+            // Show error in content area
+            const content = document.getElementById('admin-projects-content');
+            if (content) {
+                content.innerHTML = `
+                    <div class="error-message" style="padding: 2rem; text-align: center; color: var(--error-color);">
+                        <i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Failed to load projects. Please try again later.</p>
+                        <button class="btn btn-primary" onclick="window.app.loadAdminProjects()">Retry</button>
+                    </div>
+                `;
+            }
         } finally {
             this.loadingAdminProjects = false;
         }
     }
     
-    renderAdminProjects(data) {
+    renderAdminProjects(projects) {
+        if (!Array.isArray(projects) || projects.length === 0) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Projects Management</h3>
+                        <button class="btn btn-primary" onclick="window.app.addProject()">Add Project</button>
+                    </div>
+                    <div class="projects-grid" style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-folder-open" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                        <p style="color: var(--text-muted);">No projects found</p>
+                        <button class="btn btn-outline" style="margin-top: 1rem;" onclick="window.app.addProject()">Create First Project</button>
+                    </div>
+                </div>
+            `;
+        }
+
         return `
             <div class="card">
                 <div class="card-header">
@@ -1470,19 +1540,37 @@ class AppManager {
                     <button class="btn btn-primary" onclick="window.app.addProject()">Add Project</button>
                 </div>
                 <div class="projects-grid">
-                    ${data.map(project => `
+                    ${projects.map(project => `
                         <div class="project-card">
-                            <img src="${project.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop'}" alt="${project.title}" class="project-image">
+                            <img src="${project.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop'}" 
+                                 alt="${project.title || 'Project'}" 
+                                 class="project-image"
+                                 onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
                             <div class="project-info">
-                                <h3 class="project-title">${project.title}</h3>
-                                <p class="project-category">${project.category}</p>
-                                <p class="project-description">${project.description.substring(0, 100)}${project.description.length > 100 ? '...' : ''}</p>
+                                <h3 class="project-title">${project.title || 'Untitled'}</h3>
+                                <p class="project-category">${project.category || 'Uncategorized'}</p>
+                                <p class="project-description">${project.description ? project.description.substring(0, 100) + (project.description.length > 100 ? '...' : '') : 'No description provided'}</p>
                                 <div class="project-tech">
-                                    ${project.technologies ? project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('') : ''}
+                                    ${project.technologies && Array.isArray(project.technologies) ? 
+                                        project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('') : 
+                                        project.techStack && Array.isArray(project.techStack) ?
+                                            project.techStack.map(tech => `<span class="tech-tag">${tech}</span>`).join('') :
+                                            '<span class="tech-tag">No technologies listed</span>'
+                                    }
+                                </div>
+                                <div class="project-status">
+                                    <span class="badge ${this.getStatusBadgeClass(project.status || 'pending')}">
+                                        ${project.status || 'Pending'}
+                                    </span>
+                                    <span class="badge badge-info">
+                                        ${project.owner || 'N/A'}
+                                    </span>
                                 </div>
                                 <div class="table-actions" style="margin-top: 1rem;">
                                     <button class="btn btn-outline" onclick="window.app.editProject('${project.id}')">Edit</button>
                                     <button class="btn btn-danger" onclick="window.app.deleteProject('${project.id}')">Delete</button>
+                                    ${project.github ? `<a href="${project.github}" class="btn btn-outline" target="_blank"><i class="fab fa-github"></i> Code</a>` : ''}
+                                    ${project.demo ? `<a href="${project.demo}" class="btn btn-outline" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>` : ''}
                                 </div>
                             </div>
                         </div>

@@ -68,14 +68,14 @@
         <div id="contact-section-container"></div>
 
         <!-- Student Dashboard Sections -->
-        <div id="student-dashboard-container" style="display: none;"></div>
+        <div id="student-dashboard-container"></div>
         <div id="student-profile-container" style="display: none;"></div>
         <div id="student-edit-profile-container" style="display: none;"></div>
         <div id="student-projects-container" style="display: none;"></div>
         <div id="student-events-container" style="display: none;"></div>
         
         <!-- Faculty Dashboard Sections -->
-        <div id="faculty-dashboard-container" style="display: none;"></div>
+        <div id="faculty-dashboard-container"></div>
         <div id="faculty-profile-container" style="display: none;"></div>
         <div id="faculty-edit-profile-container" style="display: none;"></div>
         <div id="faculty-students-container" style="display: none;"></div>
@@ -83,7 +83,7 @@
         <div id="faculty-projects-container" style="display: none;"></div>
         
         <!-- Admin Dashboard Sections -->
-        <div id="admin-dashboard-container" style="display: none;"></div>
+        <div id="admin-dashboard-container"></div>
         <div id="admin-users-container" style="display: none;"></div>
         <div id="admin-faculty-container" style="display: none;"></div>
         <div id="admin-programs-container" style="display: none;"></div>
@@ -240,7 +240,7 @@
                 
                 if (container) {
                     container.innerHTML = html;
-                    container.style.display = 'block'; // Make sure container is visible
+                    container.style.display = 'block';
                     console.log(`✓ Loaded ${filePath} into ${containerId}`);
                     
                     // Dispatch event that this dashboard is loaded
@@ -309,7 +309,17 @@
             });
         });
 
+        // Handle any errors in component loading
+        window.addEventListener('error', (e) => {
+            if (e.target.tagName === 'LINK' || e.target.tagName === 'SCRIPT') {
+                console.error('Resource failed to load:', e.target.href || e.target.src);
+            }
+        }, true);
+
         window.addEventListener('load', () => {
+            console.log('Window fully loaded');
+            
+            // Hide loading screen after a short delay
             setTimeout(() => {
                 const loadingScreen = document.getElementById('loading-screen');
                 if (loadingScreen) {
@@ -320,6 +330,23 @@
                 }
             }, 1000);
         });
+
+        // Listen for dashboard loaded events
+        window.addEventListener('dashboard:loaded', (e) => {
+            console.log(`Dashboard loaded: ${e.detail.sectionId}`);
+            // Re-initialize any dashboard-specific functionality here
+        });
+    </script>
+
+    <!-- Initialize AOS after everything is loaded -->
+    <script>
+        // Final initialization after everything is loaded
+        window.addEventListener('load', () => {
+            if (typeof AOS !== 'undefined') {
+                AOS.refresh();
+            }
+        });
     </script>
 </body>
+
 </html>
