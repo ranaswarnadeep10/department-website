@@ -496,9 +496,7 @@ class AuthManager {
         this.updateDashboardLinks();
         
         // Re-setup navigation listeners to include new dashboard links
-        if (window.app) {
-            window.app.setupNavLinkListeners();
-        }
+
     }
     
     async checkAuthStatus() {
@@ -562,9 +560,7 @@ class AuthManager {
         this.clearDashboardLinks();
         
         // Re-setup navigation listeners
-        if (window.app) {
-            window.app.setupNavLinkListeners();
-        }
+
     }
     
     async logout() {
