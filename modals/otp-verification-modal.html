@@ -1,0 +1,45 @@
+<!-- OTP Verification Modal -->
+<div class="modal" id="otp-verification-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Verify Your Email</h3>
+            <button class="modal-close" data-modal="otp-verification-modal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="verification-content">
+                <div class="verification-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <p>We've sent a verification code to your email.</p>
+                <p id="otp-email-display" style="font-weight: 500; margin: 1rem 0;"></p>
+                
+                <form class="verification-form" id="otp-verification-form">
+                    <div class="otp-input-group">
+                        <input type="text" class="otp-input" maxlength="1" data-index="0" autocomplete="off">
+                        <input type="text" class="otp-input" maxlength="1" data-index="1" autocomplete="off">
+                        <input type="text" class="otp-input" maxlength="1" data-index="2" autocomplete="off">
+                        <input type="text" class="otp-input" maxlength="1" data-index="3" autocomplete="off">
+                        <input type="text" class="otp-input" maxlength="1" data-index="4" autocomplete="off">
+                        <input type="text" class="otp-input" maxlength="1" data-index="5" autocomplete="off">
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-large" id="verify-otp-btn">
+                            <i class="fas fa-check"></i> Verify Email
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="resend-section">
+                    <p>Didn't receive the code?</p>
+                    <button class="btn btn-outline" id="resend-otp-btn" type="button">
+                        <i class="fas fa-redo"></i> Resend OTP
+                    </button>
+                    <p id="resend-timer" style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

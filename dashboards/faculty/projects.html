@@ -1,0 +1,39 @@
+<!-- Faculty Projects -->
+<section id="faculty-projects" class="dashboard-section">
+    <div class="dashboard-header">
+        <div class="dashboard-header-content">
+            <h1>Student Projects</h1>
+            <p>Review and manage student projects</p>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#faculty-dashboard" data-section="faculty-dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#faculty-profile" data-section="faculty-profile"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#faculty-edit-profile" data-section="faculty-edit-profile"><i class="fas fa-edit"></i> Edit Profile</a></li>
+                <li><a href="#faculty-students" data-section="faculty-students"><i class="fas fa-user-graduate"></i> Students</a></li>
+                <li><a href="#faculty-courses" data-section="faculty-courses"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="#faculty-projects" class="active" data-section="faculty-projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+            </ul>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="projects-filter">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="pending">Pending Review</button>
+                <button class="filter-btn" data-filter="approved">Approved</button>
+                <button class="filter-btn" data-filter="rejected">Rejected</button>
+            </div>
+
+            <div class="projects-grid" id="faculty-projects-grid">
+                <!-- Projects will be loaded dynamically -->
+                <div class="loading-placeholder">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading projects...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

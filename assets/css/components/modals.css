@@ -1,0 +1,139 @@
+/* ===== MODAL STYLES ===== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    padding: 1rem;
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-lg);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-20px);
+    transition: var(--transition);
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.modal-close:hover {
+    color: var(--error-color);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Auth Divider */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    color: var(--text-muted);
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--border-color);
+}
+
+/* Verification Modal */
+.verification-content {
+    text-align: center;
+}
+
+.verification-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.verification-form {
+    margin: 2rem 0;
+}
+
+.resend-section {
+    margin-top: 1.5rem;
+}
+
+.resend-section p {
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+
+/* Success & Error Modals */
+.success-icon,
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.success-icon {
+    color: var(--success-color);
+}
+
+.error-icon {
+    color: var(--error-color);
+}
+
+/* Forgot Password Link */
+.forgot-password {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}

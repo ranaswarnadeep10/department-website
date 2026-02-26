@@ -1,0 +1,63 @@
+/* ===== ABOUT SECTION ===== */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.programs-section {
+    margin-top: 4rem;
+}
+
+.programs-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    color: var(--text-primary);
+}
+
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.program-details p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.program-details ul {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.program-details li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.program-details li::before {
+    content: '▸';
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+}
+
+.program-stats {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.program-stats span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}

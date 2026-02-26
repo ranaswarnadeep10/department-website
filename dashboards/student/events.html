@@ -1,0 +1,37 @@
+<!-- Student Events -->
+<section id="student-events" class="dashboard-section">
+    <div class="dashboard-header">
+        <div class="dashboard-header-content">
+            <h1>Events</h1>
+            <p>View and register for upcoming events</p>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#student-dashboard" data-section="student-dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#student-profile" data-section="student-profile"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#student-edit-profile" data-section="student-edit-profile"><i class="fas fa-edit"></i> Edit Profile</a></li>
+                <li><a href="#student-projects" data-section="student-projects"><i class="fas fa-project-diagram"></i> My Projects</a></li>
+                <li><a href="#student-events" class="active" data-section="student-events"><i class="fas fa-calendar-alt"></i> Events</a></li>
+            </ul>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="events-tabs">
+                <button class="tab-btn active" data-tab="upcoming">Upcoming</button>
+                <button class="tab-btn" data-tab="registered">Registered</button>
+                <button class="tab-btn" data-tab="past">Past Events</button>
+            </div>
+
+            <div class="events-content" id="student-events-content">
+                <!-- Events will be loaded dynamically -->
+                <div class="loading-placeholder">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading events...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,109 @@
+<!-- Student Edit Profile -->
+<section id="student-edit-profile" class="dashboard-section">
+    <div class="dashboard-header">
+        <div class="dashboard-header-content">
+            <h1>Edit Profile</h1>
+            <p>Update your profile information</p>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#student-dashboard" data-section="student-dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#student-profile" data-section="student-profile"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#student-edit-profile" class="active" data-section="student-edit-profile"><i class="fas fa-edit"></i> Edit Profile</a></li>
+                <li><a href="#student-projects" data-section="student-projects"><i class="fas fa-project-diagram"></i> My Projects</a></li>
+                <li><a href="#student-events" data-section="student-events"><i class="fas fa-calendar-alt"></i> Events</a></li>
+            </ul>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="form-container">
+                <form id="student-edit-form">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="edit-fullname">Full Name</label>
+                                <input type="text" id="edit-fullname" name="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-email">Email</label>
+                                <input type="email" id="edit-email" name="email" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-phone">Phone Number</label>
+                                <input type="tel" id="edit-phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-dob">Date of Birth</label>
+                                <input type="date" id="edit-dob" name="dob">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-gender">Gender</label>
+                                <select id="edit-gender" name="gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-address">Address</label>
+                                <textarea id="edit-address" name="address"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Academic Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="edit-registration">Registration No.</label>
+                                <input type="text" id="edit-registration" name="registrationNo" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-course">Course</label>
+                                <select id="edit-course" name="course">
+                                    <option value="">Select Course</option>
+                                    <option value="B.Tech CSE (Data Science)">B.Tech CSE (Data Science)</option>
+                                    <option value="MCA">MCA</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-year">Year</label>
+                                <select id="edit-year" name="year">
+                                    <option value="">Select Year</option>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-semester">Semester</label>
+                                <select id="edit-semester" name="semester">
+                                    <option value="">Select Semester</option>
+                                    <option value="1">1st Semester</option>
+                                    <option value="2">2nd Semester</option>
+                                    <option value="3">3rd Semester</option>
+                                    <option value="4">4th Semester</option>
+                                    <option value="5">5th Semester</option>
+                                    <option value="6">6th Semester</option>
+                                    <option value="7">7th Semester</option>
+                                    <option value="8">8th Semester</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="cancel-edit">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

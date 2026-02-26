@@ -1,0 +1,217 @@
+/* ===== CARD STYLES ===== */
+.card {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* About Cards */
+.about-card {
+    background-color: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: var(--border-radius-lg);
+    text-align: center;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.about-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+/* Faculty Cards */
+.faculty-card {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.faculty-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.faculty-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.faculty-info {
+    padding: 1.5rem;
+}
+
+.faculty-name {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.faculty-designation {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+/* Program Cards */
+.program-card {
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.program-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.program-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.program-header i {
+    font-size: 2rem;
+}
+
+.program-details {
+    padding: 2rem;
+}
+
+/* Project Cards */
+.project-card {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.project-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.project-info {
+    padding: 1.5rem;
+}
+
+/* Event Cards */
+.event-card {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.event-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow);
+}
+
+/* Topper Cards */
+.topper-card {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    text-align: center;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+.topper-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.topper-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: var(--accent-color);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Contact Cards */
+.contact-card {
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.contact-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+/* Admin Cards */
+.admin-card {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}

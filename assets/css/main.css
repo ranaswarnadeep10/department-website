@@ -1,0 +1,40 @@
+/* ===== MAIN CSS - IMPORTS ALL FILES ===== */
+
+/* Base */
+@import url('base/variables.css');
+@import url('base/reset.css');
+@import url('base/typography.css');
+@import url('base/animations.css');
+
+/* Layout */
+@import url('layout/containers.css');
+@import url('layout/navigation.css');  /* Make sure this line exists */
+@import url('layout/footer.css');
+
+/* Components */
+@import url('components/buttons.css');
+@import url('components/forms.css');
+@import url('components/cards.css');
+@import url('components/tables.css');
+@import url('components/badges.css');
+@import url('components/loading.css');
+@import url('components/toast.css');
+@import url('components/modals.css');
+@import url('components/image-upload.css');
+
+/* Sections */
+@import url('sections/hero.css');
+@import url('sections/about.css');
+@import url('sections/faculty.css');
+@import url('sections/projects.css');
+@import url('sections/events.css');
+@import url('sections/toppers.css');
+@import url('sections/contact.css');
+
+/* Dashboard */
+@import url('dashboard/dashboard-base.css');
+@import url('dashboard/profile.css');
+@import url('dashboard/admin-dashboard.css');
+
+/* Utils */
+@import url('utils/responsive.css');

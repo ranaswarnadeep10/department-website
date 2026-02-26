@@ -1,0 +1,273 @@
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 4rem;
+    }
+
+    .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-sidebar {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        height: auto;
+        z-index: 100;
+        display: none;
+    }
+
+    .dashboard-sidebar.active {
+        display: block;
+    }
+}
+
+@media (max-width: 992px) {
+    .nav-menu {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-primary);
+        flex-direction: column;
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+    }
+
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .mobile-menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .mobile-menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info {
+        grid-template-columns: 1fr;
+    }
+
+    .programs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 1rem;
+    }
+
+    .brand-text {
+        display: none;
+    }
+
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-bottom-links {
+        justify-content: center;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .title-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-card {
+        width: 250px;
+        height: 350px;
+    }
+
+    .tech-icons {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .tech-icons i {
+        font-size: 1.5rem;
+    }
+
+    .projects-grid,
+    .faculty-grid,
+    .toppers-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .event-date {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .event-day,
+    .event-month {
+        display: inline-block;
+    }
+
+    .event-actions {
+        justify-content: center;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-content {
+        padding: 0 1rem;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .events-tabs {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        justify-content: center;
+    }
+
+    .toppers-filter {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .toppers-filter select {
+        width: 100%;
+    }
+
+    .auth-buttons {
+        display: none;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .otp-input-group {
+        gap: 0.25rem;
+    }
+
+    .otp-input {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .toast {
+        min-width: auto;
+        width: calc(100vw - 2rem);
+        margin: 0 1rem;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .admin-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-filter-bar {
+        flex-direction: column;
+    }
+
+    .search-box, .filter-select {
+        min-width: 100%;
+    }
+
+    .table-actions {
+        flex-direction: column;
+    }
+}

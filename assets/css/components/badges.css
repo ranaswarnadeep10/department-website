@@ -1,0 +1,46 @@
+/* ===== BADGE STYLES ===== */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.badge-success {
+    background-color: rgba(76, 201, 240, 0.2);
+    color: var(--success-color);
+}
+
+.badge-warning {
+    background-color: rgba(249, 199, 79, 0.2);
+    color: var(--warning-color);
+}
+
+.badge-danger {
+    background-color: rgba(249, 65, 68, 0.2);
+    color: var(--error-color);
+}
+
+.badge-info {
+    background-color: rgba(67, 97, 238, 0.2);
+    color: var(--primary-color);
+}
+
+/* Expertise Tags */
+.expertise-tag {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+/* Tech Tags */
+.tech-tag {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}

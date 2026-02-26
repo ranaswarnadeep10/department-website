@@ -1,0 +1,41 @@
+<!-- Faculty Courses -->
+<section id="faculty-courses" class="dashboard-section">
+    <div class="dashboard-header">
+        <div class="dashboard-header-content">
+            <h1>My Courses</h1>
+            <p>Manage your courses and materials</p>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#faculty-dashboard" data-section="faculty-dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#faculty-profile" data-section="faculty-profile"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#faculty-edit-profile" data-section="faculty-edit-profile"><i class="fas fa-edit"></i> Edit Profile</a></li>
+                <li><a href="#faculty-students" data-section="faculty-students"><i class="fas fa-user-graduate"></i> Students</a></li>
+                <li><a href="#faculty-courses" class="active" data-section="faculty-courses"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="#faculty-projects" data-section="faculty-projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+            </ul>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Current Courses</h3>
+                    <button class="btn btn-primary" id="add-course-btn">
+                        <i class="fas fa-plus"></i> Add Course
+                    </button>
+                </div>
+                
+                <div class="courses-grid" id="faculty-courses-grid">
+                    <!-- Courses will be loaded dynamically -->
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading courses...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

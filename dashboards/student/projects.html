@@ -1,0 +1,40 @@
+<!-- Student Projects -->
+<section id="student-projects" class="dashboard-section">
+    <div class="dashboard-header">
+        <div class="dashboard-header-content">
+            <h1>My Projects</h1>
+            <p>Manage your academic projects</p>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#student-dashboard" data-section="student-dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#student-profile" data-section="student-profile"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#student-edit-profile" data-section="student-edit-profile"><i class="fas fa-edit"></i> Edit Profile</a></li>
+                <li><a href="#student-projects" class="active" data-section="student-projects"><i class="fas fa-project-diagram"></i> My Projects</a></li>
+                <li><a href="#student-events" data-section="student-events"><i class="fas fa-calendar-alt"></i> Events</a></li>
+            </ul>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Your Projects</h3>
+                    <button class="btn btn-primary" id="add-project-btn">
+                        <i class="fas fa-plus"></i> Add Project
+                    </button>
+                </div>
+                
+                <div class="projects-grid" id="student-projects-grid">
+                    <!-- Projects will be loaded dynamically -->
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading your projects...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

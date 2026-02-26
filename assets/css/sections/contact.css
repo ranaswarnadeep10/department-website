@@ -1,0 +1,42 @@
+/* ===== CONTACT SECTION ===== */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.contact-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.contact-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.contact-card h4 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.contact-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.contact-form-container {
+    background-color: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}

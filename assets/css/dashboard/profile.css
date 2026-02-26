@@ -1,0 +1,70 @@
+/* ===== PROFILE STYLES ===== */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary-color);
+}
+
+.profile-info h2 {
+    margin-bottom: 0.5rem;
+}
+
+.profile-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.profile-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.detail-group {
+    background-color: var(--bg-primary);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.detail-group h4 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.detail-value {
+    color: var(--text-primary);
+    text-align: right;
+}

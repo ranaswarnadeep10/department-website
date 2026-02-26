@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Data Science & MCA Department Portal</title>
+    <meta name="description" content="Department of Computer Science & Engineering - Data Science and MCA programs">
+    <meta name="keywords" content="CSE, Data Science, MCA, Computer Science, Engineering, University">
+    
+    <!-- Favicon - prevents 404 error -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏫</text></svg>">
+    
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Chart.js for Admin Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom CSS - Main file imports all others -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Fallback for any missing CSS -->
+    <style>
+        /* Critical styles to ensure display even if CSS fails to load */
+        .content-section, .dashboard-section { display: none; }
+        .content-section.active, .dashboard-section.active { display: block; }
+        .loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        .dark-theme .loading-screen { background: #121212; }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <img src="assets/images/logo.png" alt="Department Logo" class="nav-logo" style="height: 260px; width: auto;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <i class="fas fa-laptop-code" style="font-size: 4rem; color: #4361ee; display: none;"></i>
+            </div>
+            <div class="loading-text">Department Portal</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Component Container -->
+    <div id="navbar-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Public Sections -->
+        <div id="hero-section-container"></div>
+        <div id="about-section-container"></div>
+        <div id="faculty-section-container"></div>
+        <div id="projects-section-container"></div>
+        <div id="events-section-container"></div>
+        <div id="toppers-section-container"></div>
+        <div id="contact-section-container"></div>
+
+        <!-- Student Dashboard Sections -->
+        <div id="student-dashboard-container" style="display: none;"></div>
+        <div id="student-profile-container" style="display: none;"></div>
+        <div id="student-edit-profile-container" style="display: none;"></div>
+        <div id="student-projects-container" style="display: none;"></div>
+        <div id="student-events-container" style="display: none;"></div>
+        
+        <!-- Faculty Dashboard Sections -->
+        <div id="faculty-dashboard-container" style="display: none;"></div>
+        <div id="faculty-profile-container" style="display: none;"></div>
+        <div id="faculty-edit-profile-container" style="display: none;"></div>
+        <div id="faculty-students-container" style="display: none;"></div>
+        <div id="faculty-courses-container" style="display: none;"></div>
+        <div id="faculty-projects-container" style="display: none;"></div>
+        
+        <!-- Admin Dashboard Sections -->
+        <div id="admin-dashboard-container" style="display: none;"></div>
+        <div id="admin-users-container" style="display: none;"></div>
+        <div id="admin-faculty-container" style="display: none;"></div>
+        <div id="admin-programs-container" style="display: none;"></div>
+        <div id="admin-projects-container" style="display: none;"></div>
+        <div id="admin-events-container" style="display: none;"></div>
+        <div id="admin-messages-container" style="display: none;"></div>
+        <div id="admin-analytics-container" style="display: none;"></div>
+        <div id="admin-settings-container" style="display: none;"></div>
+        <div id="admin-toppers-container" style="display: none;"></div>
+    </main>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <!-- Modal Containers -->
+    <div id="login-modal-container"></div>
+    <div id="register-modal-container"></div>
+    <div id="otp-verification-modal-container"></div>
+    <div id="forgot-password-modal-container"></div>
+    <div id="success-modal-container"></div>
+    <div id="error-modal-container"></div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts - Order is critical! -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Core utilities first -->
+    <script src="assets/js/config/constants.js"></script>
+    <script src="assets/js/utils/helpers.js"></script>
+    <script src="assets/js/utils/validators.js"></script>
+
+    <!-- Components -->
+    <script src="assets/js/components/toast.js"></script>
+
+    <!-- Services -->
+    <script src="assets/js/services/api-service.js"></script>
+
+    <!-- Core managers -->
+    <script src="assets/js/core/theme-manager.js"></script>
+    <script src="assets/js/core/auth-manager.js"></script>
+    <script src="assets/js/components/image-editor.js"></script>
+    <script src="assets/js/core/app-manager.js"></script>
+
+    <!-- Main entry point -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- Component Loader Script -->
+    <script>
+        // Dashboard file mapping with correct container IDs
+        const DASHBOARD_FILES = {
+            // Student dashboards
+            'student-dashboard': { file: 'dashboards/student/dashboard.html', container: 'student-dashboard-container' },
+            'student-profile': { file: 'dashboards/student/profile.html', container: 'student-profile-container' },
+            'student-edit-profile': { file: 'dashboards/student/edit-profile.html', container: 'student-edit-profile-container' },
+            'student-projects': { file: 'dashboards/student/projects.html', container: 'student-projects-container' },
+            'student-events': { file: 'dashboards/student/events.html', container: 'student-events-container' },
+            
+            // Faculty dashboards
+            'faculty-dashboard': { file: 'dashboards/faculty/dashboard.html', container: 'faculty-dashboard-container' },
+            'faculty-profile': { file: 'dashboards/faculty/profile.html', container: 'faculty-profile-container' },
+            'faculty-edit-profile': { file: 'dashboards/faculty/edit-profile.html', container: 'faculty-edit-profile-container' },
+            'faculty-students': { file: 'dashboards/faculty/students.html', container: 'faculty-students-container' },
+            'faculty-courses': { file: 'dashboards/faculty/courses.html', container: 'faculty-courses-container' },
+            'faculty-projects': { file: 'dashboards/faculty/projects.html', container: 'faculty-projects-container' },
+            
+            // Admin dashboards
+            'admin-dashboard': { file: 'dashboards/admin/dashboard.html', container: 'admin-dashboard-container' },
+            'admin-users': { file: 'dashboards/admin/users.html', container: 'admin-users-container' },
+            'admin-faculty': { file: 'dashboards/admin/faculty.html', container: 'admin-faculty-container' },
+            'admin-programs': { file: 'dashboards/admin/programs.html', container: 'admin-programs-container' },
+            'admin-projects': { file: 'dashboards/admin/projects.html', container: 'admin-projects-container' },
+            'admin-events': { file: 'dashboards/admin/events.html', container: 'admin-events-container' },
+            'admin-messages': { file: 'dashboards/admin/messages.html', container: 'admin-messages-container' },
+            'admin-analytics': { file: 'dashboards/admin/analytics.html', container: 'admin-analytics-container' },
+            'admin-settings': { file: 'dashboards/admin/settings.html', container: 'admin-settings-container' },
+            'admin-toppers': { file: 'dashboards/admin/toppers.html', container: 'admin-toppers-container' }
+        };
+
+        // Component loader function with retry logic
+        async function loadComponent(containerId, filePath, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    console.log(`Loading ${filePath}... (attempt ${i + 1}/${retries})`);
+                    const response = await fetch(filePath);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const html = await response.text();
+                    const container = document.getElementById(containerId);
+                    
+                    if (container) {
+                        container.innerHTML = html;
+                        console.log(`✓ Loaded ${filePath} into ${containerId}`);
+                        
+                        // Dispatch custom event for this component
+                        window.dispatchEvent(new CustomEvent(`component:loaded`, { 
+                            detail: { containerId, filePath } 
+                        }));
+                        
+                        return true;
+                    } else {
+                        console.warn(`Container #${containerId} not found`);
+                        return false;
+                    }
+                } catch (error) {
+                    console.warn(`Attempt ${i + 1} failed to load ${filePath}:`, error.message);
+                    
+                    if (i === retries - 1) {
+                        console.error(`Failed to load ${filePath} after ${retries} attempts`);
+                        
+                        const container = document.getElementById(containerId);
+                        if (container) {
+                            container.innerHTML = `
+                                <div class="error-placeholder" style="padding: 2rem; text-align: center; color: var(--error-color);">
+                                    <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                                    <p>Failed to load component. Please refresh the page.</p>
+                                    <button class="btn btn-primary" onclick="window.location.reload()">Refresh Page</button>
+                                </div>
+                            `;
+                        }
+                        return false;
+                    }
+                    
+                    await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, i)));
+                }
+            }
+        }
+
+        // Load dashboard component with correct container mapping
+        window.loadDashboardComponent = async function(sectionId) {
+            const mapping = DASHBOARD_FILES[sectionId];
+            if (!mapping) {
+                console.error(`No file mapping for section: ${sectionId}`);
+                return false;
+            }
+            
+            const containerId = mapping.container;
+            const filePath = mapping.file;
+            
+            console.log(`Loading dashboard ${sectionId} into ${containerId} from ${filePath}`);
+            
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const html = await response.text();
+                const container = document.getElementById(containerId);
+                
+                if (container) {
+                    container.innerHTML = html;
+                    container.style.display = 'block'; // Make sure container is visible
+                    console.log(`✓ Loaded ${filePath} into ${containerId}`);
+                    
+                    // Dispatch event that this dashboard is loaded
+                    window.dispatchEvent(new CustomEvent('dashboard:loaded', { 
+                        detail: { sectionId, containerId } 
+                    }));
+                    
+                    return true;
+                } else {
+                    console.error(`Container #${containerId} not found`);
+                    return false;
+                }
+            } catch (error) {
+                console.error(`Failed to load ${filePath}:`, error);
+                return false;
+            }
+        };
+
+        // Debug function to test dashboard loading
+        window.testDashboard = async function(sectionId) {
+            console.log(`Testing dashboard load for: ${sectionId}`);
+            const loaded = await window.loadDashboardComponent(sectionId);
+            if (loaded) {
+                console.log(`Dashboard loaded, now showing section...`);
+                if (window.app) {
+                    window.app.showSection(sectionId);
+                }
+            }
+            return loaded;
+        };
+
+        // Load all components when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM Content Loaded - Starting component loader...');
+            
+            // Load main components
+            Promise.all([
+                loadComponent('navbar-container', 'components/navbar.html'),
+                loadComponent('hero-section-container', 'sections/hero.html'),
+                loadComponent('about-section-container', 'sections/about.html'),
+                loadComponent('faculty-section-container', 'sections/faculty.html'),
+                loadComponent('projects-section-container', 'sections/projects.html'),
+                loadComponent('events-section-container', 'sections/events.html'),
+                loadComponent('toppers-section-container', 'sections/toppers.html'),
+                loadComponent('contact-section-container', 'sections/contact.html'),
+                loadComponent('footer-container', 'components/footer.html'),
+                
+                // Load modals
+                loadComponent('login-modal-container', 'modals/login-modal.html'),
+                loadComponent('register-modal-container', 'modals/register-modal.html'),
+                loadComponent('otp-verification-modal-container', 'modals/otp-verification-modal.html'),
+                loadComponent('forgot-password-modal-container', 'modals/forgot-password-modal.html'),
+                loadComponent('success-modal-container', 'modals/success-modal.html'),
+                loadComponent('error-modal-container', 'modals/error-modal.html')
+            ]).then((results) => {
+                const successCount = results.filter(r => r === true).length;
+                console.log(`Main components loaded: ${successCount}/${results.length} successful`);
+                
+                window.dispatchEvent(new CustomEvent('components:loaded'));
+                
+                if (typeof AOS !== 'undefined') {
+                    setTimeout(() => {
+                        AOS.refresh();
+                    }, 100);
+                }
+            });
+        });
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!-- Admin Settings -->
+<section id="admin-settings" class="dashboard-section">
+    <div class="dashboard-header">
+        <div class="dashboard-header-content">
+            <h1>Department Settings</h1>
+            <p>Configure department settings</p>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#admin-dashboard" data-section="admin-dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#admin-users" data-section="admin-users"><i class="fas fa-users"></i> Users</a></li>
+                <li><a href="#admin-faculty" data-section="admin-faculty"><i class="fas fa-chalkboard-teacher"></i> Faculty</a></li>
+                <li><a href="#admin-programs" data-section="admin-programs"><i class="fas fa-graduation-cap"></i> Programs</a></li>
+                <li><a href="#admin-projects" data-section="admin-projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="#admin-events" data-section="admin-events"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li><a href="#admin-toppers" data-section="admin-toppers"><i class="fas fa-trophy"></i> Toppers</a></li>
+                <li><a href="#admin-messages" data-section="admin-messages"><i class="fas fa-envelope"></i> Messages</a></li>
+                <li><a href="#admin-analytics" data-section="admin-analytics"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                <li><a href="#admin-settings" class="active" data-section="admin-settings"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="form-container">
+                <form id="admin-settings-form">
+                    <div class="form-section">
+                        <h3>Department Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="admin-university">University Name</label>
+                                <input type="text" id="admin-university" name="university">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-department">Department Name</label>
+                                <input type="text" id="admin-department" name="department">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-address">Address</label>
+                                <textarea id="admin-address" name="address"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-phone">Phone</label>
+                                <input type="text" id="admin-phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-email">Email</label>
+                                <input type="email" id="admin-email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-office-hours">Office Hours</label>
+                                <input type="text" id="admin-office-hours" name="officeHours">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Department Vision & Mission</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="admin-vision">Vision</label>
+                                <textarea id="admin-vision" name="vision" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-mission">Mission</label>
+                                <textarea id="admin-mission" name="mission" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-description">Description</label>
+                                <textarea id="admin-description" name="description" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
